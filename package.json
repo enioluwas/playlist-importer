@@ -1,0 +1,51 @@
+{
+  "name": "playlist-importer-plugin",
+  "version": "0.1.0",
+  "description": "Standalone plugin for playlist-importer providing support for Prime Music, Soundcloud and Youtube Music.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enioluwa23/playlist-importer-plugin.git"
+  },
+  "keywords": [
+    "playlist",
+    "importer",
+    "import",
+    "prime",
+    "music",
+    "amazon",
+    "soundcloud",
+    "youtube"
+  ],
+  "author": "Enioluwa Segun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enioluwa23/playlist-importer-plugin/issues"
+  },
+  "homepage": "https://github.com/enioluwa23/playlist-importer-plugin#readme",
+  "dependencies": {
+    "await-to-js": "^2.1.1",
+    "axios": "^0.18.0",
+    "chalk": "^2.4.2",
+    "cheerio": "^1.0.0-rc.3",
+    "chromedriver": "^74.0.0",
+    "commander": "^2.20.0",
+    "iconv-lite": "^0.4.24",
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "valid-filename": "^3.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^5.16.0",
+    "eslint-config-google": "^0.13.0",
+    "eslint-plugin-import": "^2.17.3",
+    "mocha": "^6.1.4"
+  }
+}

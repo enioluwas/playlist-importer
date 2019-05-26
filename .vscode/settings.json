@@ -1,0 +1,6 @@
+{
+    "eslint.enable": true,
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "eslint.autoFixOnSave": true
+}
