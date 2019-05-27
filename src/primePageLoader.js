@@ -24,7 +24,13 @@ class PrimePageLoader extends PageLoader {
     }
     await this.driver.executeScript('scrollBy(0, 1000);');
     const elements = await this.getElementsByClassName(this.trackClasses);
-    return this.songCount === elements.length;
+    const visibleElements = [];
+
+    for (const x of elements) {
+      const displayValue = await x.getCssValue('display');
+      if (displayValue !== 'none') visibleElements.push(x);
+    }
+    return this.songCount === visibleElements.length;
   }
 
   async visit(url) {

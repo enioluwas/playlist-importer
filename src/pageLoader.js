@@ -1,6 +1,5 @@
 const { Builder, By } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-const { sep } = require('path');
 require('chromedriver');
 
 const options = new chrome.Options();

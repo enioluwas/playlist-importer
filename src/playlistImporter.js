@@ -1,5 +1,6 @@
 const to = require('await-to-js').to;
 const cheerio = require('cheerio');
+const iconv = require('iconv-lite');
 const platformChecker = require('./platformChecker');
 const parserFactory = require('./parserFactory');
 const loaderFactory = require('./loaderFactory');
@@ -59,7 +60,8 @@ class ImporterStatic {
     const [qError] = await to(loader.quit());
     if (null !== qError) throw qError;
 
-    const body = cheerio.load(source, { decodeEntities: true });
+    let body = iconv.decode(Buffer.from(source), 'utf8');
+    body = cheerio.load(body, { decodeEntities: true });
     const parser = parserFactory.getParser(platform, body);
     const playlist = parser.parsePlaylist(body);
     return playlist;
