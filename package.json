@@ -31,12 +31,10 @@
   "homepage": "https://github.com/enioluwa23/playlist-importer-plugin#readme",
   "dependencies": {
     "await-to-js": "^2.1.1",
-    "axios": "^0.18.0",
     "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.3",
     "chromedriver": "^74.0.0",
     "commander": "^2.20.0",
-    "iconv-lite": "^0.4.24",
     "selenium-webdriver": "^4.0.0-alpha.1",
     "valid-filename": "^3.1.0"
   },
