@@ -1,6 +1,6 @@
-SouncloudPlaylistParser = require('./applePlaylistParser');
-PrimePlaylistParser = require('./pandoraPlaylistParser');
-YoutubePlaylistParser = require('./spotifyPlaylistParser');
+SouncloudPlaylistParser = require('./soundcloudPlaylistParser');
+PrimePlaylistParser = require('./primePlaylistParser');
+YoutubePlaylistParser = require('./youtubePlaylistParser');
 
 class ParserFactory {
   /**

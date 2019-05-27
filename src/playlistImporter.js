@@ -56,6 +56,9 @@ class ImporterStatic {
     const [sError, source] = await to(loader.getPageSource());
     if (null !== sError) throw sError;
 
+    const [qError] = await to(loader.quit());
+    if (null !== qError) throw qError;
+
     const body = cheerio.load(source, { decodeEntities: true });
     const parser = parserFactory.getParser(platform, body);
     const playlist = parser.parsePlaylist(body);
