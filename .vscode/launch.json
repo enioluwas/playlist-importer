@@ -7,6 +7,14 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Temp Test",
+      "program": "${workspaceFolder}/test-delete-this.js",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Launch Current File",
       "program": "${file}",
       "console": "integratedTerminal",

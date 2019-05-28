@@ -2,9 +2,9 @@ const PlaylistParser = require('./playlistParser');
 const Playlist = require('./playlist');
 const Track = require('./track');
 const platforms = require('./platforms');
-const queries = require('./queries').primeQueries;
+const queries = require('./queries').youtubeQueries;
 
-class PrimePlaylistParser extends PlaylistParser {
+class YoutubePlaylistParser extends PlaylistParser {
   constructor(jQueryInstance) {
     super(jQueryInstance);
   }
@@ -12,7 +12,7 @@ class PrimePlaylistParser extends PlaylistParser {
   getAuthor(playlist) {
     const info = playlist(queries.authorQuery);
     const contents = info.get(0).firstChild.data;
-    const author = contents.split(' by ')[1].trim();
+    const author = contents.split(' • ')[1].trim();
     return author;
   }
 
@@ -25,14 +25,13 @@ class PrimePlaylistParser extends PlaylistParser {
 
   getPhoto(playlist) {
     const info = playlist(queries.photoQuery);
-    const headerDiv = info.get(0).firstChild;
-    const img = headerDiv.children.find((x) => x.name === 'img');
+    const img = info.get(0);
     const photo = img.attribs.src;
     return photo;
   }
 
   getPlatform() {
-    return platforms.PRIME;
+    return platforms.YOUTUBE;
   }
 
   getTitle(playlist) {
@@ -42,43 +41,42 @@ class PrimePlaylistParser extends PlaylistParser {
   }
 
   getTracks(playlist) {
-    let telegraphedLength = playlist(queries.telegraphedLengthQuery).get(0).firstChild.data;
-    telegraphedLength = telegraphedLength.split(' ')[0];
-    telegraphedLength = parseInt(telegraphedLength);
-    const tracks = playlist(queries.trackQuery).filter((i, x) => {
-      if (!x.attribs) return true;
-      if (!x.attribs.style) return true;
-      if (!x.attribs.style.includes('display: none')) return true;
-      return false;
-    });
-    const artists = playlist(queries.trackArtistQuery).slice(0, tracks.length);
+    // no telegraphed legnth for now - Youtube always shows wrong count for some reason
+    const tracks = playlist(queries.trackQuery);
+    const artists = playlist(queries.trackArtistQuery);
     const titles = playlist(queries.trackTitleQuery);
     const lengths = playlist(queries.trackLengthQuery);
     const explicitStr = ' [Explicit]';
-
-    if (telegraphedLength !== tracks.length)
-      throw new Error('This playlist link seems invalid');
+    const cleanStr = ' [CleanStr]';
 
     const result = [];
 
-    tracks.each((i) => {
+    tracks.each((i, item) => {
       const track = {};
 
-      let title = titles.get(i).firstChild.data.trim();
+      let title = titles.get(i).firstChild.firstChild.data.trim();
       const explicitIdx = title.indexOf(explicitStr);
       const explicit = explicitIdx !== -1;
       if (explicit) title = title.substring(0, explicitIdx);
+      else {
+        const expIcon = this.$(item).find(queries.trackIsExplicitQuery);
+        explicit = expIcon.length > 0;
+        // diagnostic - delete this
+        if (expIcon.length > 0) {
+          // go here
+          const a = 1;
+        }
+      }
+
+      const cleanIdx = title.indexOf(cleanStr);
+      if (cleanIdx !== -1) title = title.substring(0, cleanIdx);
       const featrIdx = title.toLowerCase().indexOf(' (feat. ');
       title = featrIdx !== -1 ? title.substring(0, featrIdx) : title;
-      const featsIdx = title.toLowerCase().indexOf(' [feat. ');
-      title = featsIdx !== -1 ? title.substring(0, featsIdx) : title;
 
       let artist = artists.get(i).firstChild.firstChild.firstChild.data.trim();
-      artist = artist.replace(/(\[|\])/g, '');
-      artist = this.replaceAll(artist, ' feat.', ',');
-      artist = this.replaceAll(artist, ' & ', ', ');
+      artist = this.replaceAll(' & ', ', ');
 
-      let length = lengths.get(i).firstChild.data;
+      let length = lengths.get(i).firstChild.data.trim();
       length = this.timeStringToSeconds(length);
 
       track.title = title;
@@ -96,11 +94,12 @@ class PrimePlaylistParser extends PlaylistParser {
     result.author = this.getAuthor(playlist);
     result.title = this.getTitle(playlist);
     result.description = this.getDescription(playlist);
-    result.platform = this.getPlatform();
     result.photo = this.getPhoto(playlist);
+    result.platform = this.getPlatform();
     result.tracklist = this.getTracks(playlist);
     return new Playlist(result);
   }
 }
 
-module.exports = PrimePlaylistParser;
+module.exports = YoutubePlaylistParser;
+

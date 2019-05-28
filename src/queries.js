@@ -58,16 +58,16 @@ const youtubeQueries = new PlaylistQuery({
   counterInfo: {
     songCountClasses: 'subtitle style-scope ytmusic-detail-header-renderer',
     trackClasses: 'flex-columns style-scope ytmusic-responsive-list-item-renderer' },
-  authorQuery: '',
-  descriptionQuery: '',
-  photoQuery: 'div.',
-  trackQuery: '',
-  trackTitleQuery: '',
-  trackArtistQuery: '',
-  titleQuery: 'flex-columns style-scope ytmusic-responsive-list-item-renderer',
-  trackIsExplicitQuery: '',
-  trackLengthQuery: '',
-  telegraphedLengthQuery: '',
+  authorQuery: 'yt-formatted-string.subtitle.style-scope.ytmusic-detail-header-renderer',
+  descriptionQuery: 'yt-formatted-string#description',
+  photoQuery: 'yt-img-shadow img[width="264"]',
+  trackQuery: 'div.flex-columns.style-scope.ytmusic-responsive-list-item-renderer',
+  trackTitleQuery: 'div.title.style-scope.ytmusic-responsive-list-item-renderer',
+  trackArtistQuery: 'div.secondary-flex-columns.style-scope.ytmusic-responsive-list-item-renderer',
+  titleQuery: 'yt-formatted-string.title.style-scope.ytmusic-detail-header-renderer',
+  trackIsExplicitQuery: 'yt-icon.icon.style-scope.ytmusic-inline-badge-renderer[title="Explicit"]',
+  trackLengthQuery: 'yt-formatted-string.fixed-column.style-scope.ytmusic-responsive-list-item-renderer',
+  telegraphedLengthQuery: 'yt-formatted-string.subtitle.style-scope.ytmusic-detail-header-renderer',
 });
 
 module.exports = {

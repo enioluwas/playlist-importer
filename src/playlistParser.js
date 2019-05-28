@@ -68,7 +68,7 @@ class PlaylistParser {
   }
 
   /**
- * @param {*} timeStr
+ * @param {string} timeStr
  * @return {number}
  */
   timeStringToSeconds(timeStr) {
@@ -78,6 +78,17 @@ class PlaylistParser {
     const secondsNum = parseInt(seconds);
     const timeNum = (minutesNum * 60) + secondsNum;
     return timeNum;
+  }
+
+  /**
+   *
+   * @param {string} target
+   * @param {string|RegExp} pattern
+   * @param {string} replacement
+   * @return {string}
+   */
+  replaceAll(target, pattern, replacement) {
+    return target.replace(new RegExp(pattern, 'g'), replacement);
   }
 }
 
