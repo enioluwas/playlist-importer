@@ -22,8 +22,8 @@ const fs = require('fs');
 
 
 const importer = require('.');
-importer.getPlaylistData('https://music.youtube.com/playlist?list=RDCLAK5uy_k2pS49OPwSZtJeXgWnvAPmlB8gJCphDes')
+importer.getPlaylistData('https://music.youtube.com/playlist?list=RDCLAK5uy_kWm5me-X3IbEMBOWHd2fI7d4aQoauMcbI')
   .then((data) => {
-    fs.writeFileSync('./assets/youtubeexample.json', JSON.stringify(data, null, 2));
+    fs.writeFileSync('./assets/youtubeexample2.json', JSON.stringify(data, null, 2));
   });
 

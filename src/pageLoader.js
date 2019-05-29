@@ -4,7 +4,7 @@ require('chromedriver');
 
 const options = new chrome.Options();
 options.addArguments('disable-infobars');
-options.addArguments('headless');
+// options.addArguments('headless');
 options.addArguments('log-level=3');
 options.addArguments('disable-extensions');
 options.addArguments('disable-gpu');
@@ -37,6 +37,11 @@ class PageLoader {
     return await this.driver.getPageSource();
   }
 
+  async getElementById(id) {
+    // await this.driver.wait(until.elementLocated(By.id(id)), 5000, 'Searching for element by id');
+    return await this.driver.findElement(By.id(id));
+  }
+
   async getElementsByName(name) {
     // await this.driver.wait(until.elementLocated(By.name(name)), 5000, 'Searching for element by name');
     return await this.driver.findElements(By.name(name));
@@ -50,6 +55,14 @@ class PageLoader {
   async getElementsByClassName(name) {
     // await this.driver.wait(until.elementLocated(By.className(name)), 5000, 'Searching for element by class name');
     return await this.driver.findElements(By.className(name));
+  }
+
+  async getElementByXPath(xpath) {
+    return await this.driver.findElement(By.xpath(xpath));
+  }
+
+  async getElementsByXPath(xpath) {
+    return await this.driver.findElements(By.xpath(xpath));
   }
 };
 

@@ -7,6 +7,7 @@ const queries = require('./queries').youtubeQueries;
 class YoutubePlaylistParser extends PlaylistParser {
   constructor(jQueryInstance) {
     super(jQueryInstance);
+    this.filteredStringRegex = /(\[Official (Audio|Video)\])/gi;
   }
 
   getAuthor(playlist) {
@@ -47,34 +48,38 @@ class YoutubePlaylistParser extends PlaylistParser {
     const titles = playlist(queries.trackTitleQuery);
     const lengths = playlist(queries.trackLengthQuery);
     const explicitStr = ' [Explicit]';
-    const cleanStr = ' [CleanStr]';
+    const cleanStr = ' [Clean]';
 
     const result = [];
 
     tracks.each((i, item) => {
       const track = {};
 
-      let title = titles.get(i).firstChild.firstChild.data.trim();
+      let title = titles.get(i).firstChild.data.trim();
       const explicitIdx = title.indexOf(explicitStr);
-      const explicit = explicitIdx !== -1;
+      let explicit = explicitIdx !== -1;
       if (explicit) title = title.substring(0, explicitIdx);
       else {
         const expIcon = this.$(item).find(queries.trackIsExplicitQuery);
         explicit = expIcon.length > 0;
-        // diagnostic - delete this
-        if (expIcon.length > 0) {
-          // go here
-          const a = 1;
-        }
       }
-
       const cleanIdx = title.indexOf(cleanStr);
       if (cleanIdx !== -1) title = title.substring(0, cleanIdx);
       const featrIdx = title.toLowerCase().indexOf(' (feat. ');
       title = featrIdx !== -1 ? title.substring(0, featrIdx) : title;
 
-      let artist = artists.get(i).firstChild.firstChild.firstChild.data.trim();
-      artist = this.replaceAll(' & ', ', ');
+      let artist = artists.get(i).children.find((x) => x.name === 'yt-formatted-string');
+      if (artist.firstChild.nodeValue !== null) {
+        let artistVal = artist.firstChild.nodeValue;
+        if (artist.firstChild.nextSibling !== null)
+          artistVal += artist.firstChild.nextSibling.firstChild.data;
+        artist = artistVal;
+      } else
+        artist = artist.firstChild.firstChild.data;
+
+      if (artist.includes('&'))
+        artist = this.replaceAll(artist, ' & ', ', ');
+      artist = this.replaceAll(artist, ' feat.', ',');
 
       let length = lengths.get(i).firstChild.data.trim();
       length = this.timeStringToSeconds(length);

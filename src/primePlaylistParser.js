@@ -74,6 +74,7 @@ class PrimePlaylistParser extends PlaylistParser {
       title = featsIdx !== -1 ? title.substring(0, featsIdx) : title;
 
       let artist = artists.get(i).firstChild.firstChild.firstChild.data.trim();
+      // this is fishy - change this
       artist = artist.replace(/(\[|\])/g, '');
       artist = this.replaceAll(artist, ' feat.', ',');
       artist = this.replaceAll(artist, ' & ', ', ');

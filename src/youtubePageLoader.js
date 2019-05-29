@@ -1,28 +1,19 @@
 const PageLoader = require('./pageLoader');
+const { By } = require('selenium-webdriver');
 
 class YoutubePageLoader extends PageLoader {
   constructor(loadInfo) {
     super();
-    this.songCountClasses = loadInfo.songCountClasses;
-    this.trackClasses = loadInfo.trackClasses;
-    this.songCount = -1;
+    this.continuationsXpath = loadInfo.continuationsXpath;
   }
 
   async loadCondition() {
-    if (this.songCount === -1) {
-      const countElements = await this.getElementsByClassName(this.songCountClasses);
-      if (countElements.length < 1) return false;
-      const countElement = countElements[0];
-      let parts = await countElement.getText();
-      parts = parts.split('\n');
-      let count = parts[parts.length - 1].split('•');
-      count = count[0];
-      if (count.length < 1) return false;
-      this.songCount = parseInt(count);
-    }
     await this.driver.executeScript('scrollBy(0, 1000);');
-    const elements = await this.getElementsByClassName(this.trackClasses);
-    return Math.abs(this.songCount - elements.length) < 6;
+    const continuations = await this.getElementsByXPath(this.continuationsXpath);
+    if(continuations.length === 0) 
+      return false;
+    const hasContinuations = await continuations[0].findElements(By.xpath('.//*'));
+    return hasContinuations.length === 0;
   }
 
   async visit(url) {

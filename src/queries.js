@@ -56,13 +56,13 @@ const primeQueries = new PlaylistQuery({
 
 const youtubeQueries = new PlaylistQuery({
   counterInfo: {
-    songCountClasses: 'subtitle style-scope ytmusic-detail-header-renderer',
-    trackClasses: 'flex-columns style-scope ytmusic-responsive-list-item-renderer' },
+    continuationsXpath: '//div[@id=\'continuations\' and @class=\'style-scope ytmusic-playlist-shelf-renderer\']',
+  },
   authorQuery: 'yt-formatted-string.subtitle.style-scope.ytmusic-detail-header-renderer',
   descriptionQuery: 'yt-formatted-string#description',
   photoQuery: 'yt-img-shadow img[width="264"]',
   trackQuery: 'div.flex-columns.style-scope.ytmusic-responsive-list-item-renderer',
-  trackTitleQuery: 'div.title.style-scope.ytmusic-responsive-list-item-renderer',
+  trackTitleQuery: 'yt-formatted-string.title.style-scope.ytmusic-responsive-list-item-renderer',
   trackArtistQuery: 'div.secondary-flex-columns.style-scope.ytmusic-responsive-list-item-renderer',
   titleQuery: 'yt-formatted-string.title.style-scope.ytmusic-detail-header-renderer',
   trackIsExplicitQuery: 'yt-icon.icon.style-scope.ytmusic-inline-badge-renderer[title="Explicit"]',
