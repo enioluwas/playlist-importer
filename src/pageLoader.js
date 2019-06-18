@@ -4,12 +4,12 @@ require('chromedriver');
 
 const options = new chrome.Options();
 options.addArguments('disable-infobars');
-// options.addArguments('headless');
+options.addArguments('headless');
 options.addArguments('log-level=3');
 options.addArguments('disable-extensions');
 options.addArguments('disable-gpu');
-options.addArguments('disable-logging');
-// --disable-notifications
+options.addArguments('mute-audio');
+options.excludeSwitches('enable-logging');
 options.setUserPreferences({ credentials_enable_service: false });
 
 class PageLoader {
@@ -38,22 +38,18 @@ class PageLoader {
   }
 
   async getElementById(id) {
-    // await this.driver.wait(until.elementLocated(By.id(id)), 5000, 'Searching for element by id');
     return await this.driver.findElement(By.id(id));
   }
 
   async getElementsByName(name) {
-    // await this.driver.wait(until.elementLocated(By.name(name)), 5000, 'Searching for element by name');
     return await this.driver.findElements(By.name(name));
   }
 
   async getElementsByTagName(name) {
-    // await this.driver.wait(until.elementLocated(By.tagName(name)), 5000, 'Searching for element by tag name');
     return await this.driver.findElements(By.tagName(name));
   }
 
   async getElementsByClassName(name) {
-    // await this.driver.wait(until.elementLocated(By.className(name)), 5000, 'Searching for element by class name');
     return await this.driver.findElements(By.className(name));
   }
 

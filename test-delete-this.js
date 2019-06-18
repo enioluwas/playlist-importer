@@ -18,12 +18,21 @@ const fs = require('fs');
 //   });
 
 // https://music.youtube.com/playlist?list=PLFgquLnL59anX9MlB94jIg69rR6FyzqQP
+// https://music.youtube.com/playlist?list=RDCLAK5uy_k2pS49OPwSZtJeXgWnvAPmlB8gJCphDes
 // https://soundcloud.com/james-vanho/sets/melodic-dubstep
+// https://music.youtube.com/playlist?list=RDCLAK5uy_kWm5me-X3IbEMBOWHd2fI7d4aQoauMcbI
+// https://music.amazon.com/playlists/B07KXS3DKR
 
 
 const importer = require('.');
-importer.getPlaylistData('https://music.youtube.com/playlist?list=RDCLAK5uy_kWm5me-X3IbEMBOWHd2fI7d4aQoauMcbI')
+console.time('browse');
+importer.getPlaylistData('https://music.amazon.com/playlists/B07KXS3DKR')
   .then((data) => {
-    fs.writeFileSync('./assets/youtubeexample2.json', JSON.stringify(data, null, 2));
+    console.timeEnd('browse');
+    fs.writeFileSync('./assets/primeexample3.json', JSON.stringify(data, null, 2));
+  })
+  .catch((error) => {
+    console.timeEnd('browse');
+    console.log(error);
   });
 

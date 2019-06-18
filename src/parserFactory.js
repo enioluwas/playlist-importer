@@ -1,6 +1,7 @@
-SouncloudPlaylistParser = require('./soundcloudPlaylistParser');
-PrimePlaylistParser = require('./primePlaylistParser');
-YoutubePlaylistParser = require('./youtubePlaylistParser');
+const SoundcloudPlaylistParser = require('./soundcloudPlaylistParser');
+const PrimePlaylistParser = require('./primePlaylistParser');
+const YoutubePlaylistParser = require('./youtubePlaylistParser');
+const platforms = require('./platforms');
 
 class ParserFactory {
   /**
@@ -10,9 +11,9 @@ class ParserFactory {
    */
   static getParser(platform, jQueryInstance) {
     switch (platform) {
-    case 'soundcloud': return new SoundcloudPlaylistParser(jQueryInstance);
-    case 'prime': return new PrimePlaylistParser(jQueryInstance);
-    case 'youtube': return new YoutubePlaylistParser(jQueryInstance);
+    case platforms.SOUNDCLOUD: return new SoundcloudPlaylistParser(jQueryInstance);
+    case platforms.PRIME: return new PrimePlaylistParser(jQueryInstance);
+    case platforms.YOUTUBE: return new YoutubePlaylistParser(jQueryInstance);
     default: return null;
     }
   }

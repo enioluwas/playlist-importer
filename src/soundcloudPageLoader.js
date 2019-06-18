@@ -26,7 +26,7 @@ class SoundcloudPageLoader extends PageLoader {
       return false;
     } else {
       const elements = await this.getElementsByClassName(this.trackClasses);
-      return this.songCount === elements.length;
+      return this.songCount === elements.length || this.songCount >= 450;
     }
   }
 

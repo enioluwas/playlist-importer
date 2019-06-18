@@ -10,7 +10,7 @@ class YoutubePageLoader extends PageLoader {
   async loadCondition() {
     await this.driver.executeScript('scrollBy(0, 1000);');
     const continuations = await this.getElementsByXPath(this.continuationsXpath);
-    if(continuations.length === 0) 
+    if (continuations.length === 0)
       return false;
     const hasContinuations = await continuations[0].findElements(By.xpath('.//*'));
     return hasContinuations.length === 0;

@@ -1,3 +1,4 @@
+const utils = require('./utils');
 const PlaylistParser = require('./playlistParser');
 const Playlist = require('./playlist');
 const Track = require('./track');
@@ -7,6 +8,8 @@ const queries = require('./queries').primeQueries;
 class PrimePlaylistParser extends PlaylistParser {
   constructor(jQueryInstance) {
     super(jQueryInstance);
+    this.explicitStr = ' [Explicit]';
+    this.featRgx = /\s(\[|\()feat(\.)?\s/i;
   }
 
   getAuthor(playlist) {
@@ -54,7 +57,7 @@ class PrimePlaylistParser extends PlaylistParser {
     const artists = playlist(queries.trackArtistQuery).slice(0, tracks.length);
     const titles = playlist(queries.trackTitleQuery);
     const lengths = playlist(queries.trackLengthQuery);
-    const explicitStr = ' [Explicit]';
+
 
     if (telegraphedLength !== tracks.length)
       throw new Error('This playlist link seems invalid');
@@ -65,22 +68,21 @@ class PrimePlaylistParser extends PlaylistParser {
       const track = {};
 
       let title = titles.get(i).firstChild.data.trim();
-      const explicitIdx = title.indexOf(explicitStr);
+
+      const explicitIdx = title.indexOf(this.explicitStr);
       const explicit = explicitIdx !== -1;
       if (explicit) title = title.substring(0, explicitIdx);
-      const featrIdx = title.toLowerCase().indexOf(' (feat. ');
-      title = featrIdx !== -1 ? title.substring(0, featrIdx) : title;
-      const featsIdx = title.toLowerCase().indexOf(' [feat. ');
-      title = featsIdx !== -1 ? title.substring(0, featsIdx) : title;
+
+      const featIdx = utils.indexOfRgx(title, this.featRgx);
+      title = featIdx !== -1 ? title.substring(0, featIdx) : title;
 
       let artist = artists.get(i).firstChild.firstChild.firstChild.data.trim();
-      // this is fishy - change this
       artist = artist.replace(/(\[|\])/g, '');
-      artist = this.replaceAll(artist, ' feat.', ',');
-      artist = this.replaceAll(artist, ' & ', ', ');
+      artist = utils.replaceAll(artist, ' feat.', ',');
+      artist = utils.replaceAll(artist, ' & ', ', ');
 
       let length = lengths.get(i).firstChild.data;
-      length = this.timeStringToSeconds(length);
+      length = utils.timeStringToSeconds(length);
 
       track.title = title;
       track.artist = artist;

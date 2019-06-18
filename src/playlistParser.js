@@ -66,30 +66,6 @@ class PlaylistParser {
   parsePlaylist(playlist) {
     return new Playlist();
   }
-
-  /**
- * @param {string} timeStr
- * @return {number}
- */
-  timeStringToSeconds(timeStr) {
-    // add error handling for NaN parse
-    const [minutes, seconds] = timeStr.split(':');
-    const minutesNum = parseInt(minutes);
-    const secondsNum = parseInt(seconds);
-    const timeNum = (minutesNum * 60) + secondsNum;
-    return timeNum;
-  }
-
-  /**
-   *
-   * @param {string} target
-   * @param {string|RegExp} pattern
-   * @param {string} replacement
-   * @return {string}
-   */
-  replaceAll(target, pattern, replacement) {
-    return target.replace(new RegExp(pattern, 'g'), replacement);
-  }
 }
 
 module.exports = PlaylistParser;

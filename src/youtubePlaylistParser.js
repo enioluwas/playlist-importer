@@ -1,3 +1,4 @@
+const utils = require('./utils');
 const PlaylistParser = require('./playlistParser');
 const Playlist = require('./playlist');
 const Track = require('./track');
@@ -7,7 +8,9 @@ const queries = require('./queries').youtubeQueries;
 class YoutubePlaylistParser extends PlaylistParser {
   constructor(jQueryInstance) {
     super(jQueryInstance);
-    this.filteredStringRegex = /(\[Official (Audio|Video)\])/gi;
+    this.titleFilterRgx = /\s?((\[|\()(official(\s)*)*(music(\s)*)*(video|audio)(\]|\)))/gi;
+    this.explicitRgx = /\s?(\[|\()Explicit(\]|\))/i;
+    this.cleanRgx = /\s?(\[|\()Clean(\]|\))/i;
   }
 
   getAuthor(playlist) {
@@ -42,13 +45,11 @@ class YoutubePlaylistParser extends PlaylistParser {
   }
 
   getTracks(playlist) {
-    // no telegraphed legnth for now - Youtube always shows wrong count for some reason
+    // no telegraphed length for now - Youtube always shows wrong count for some reason
     const tracks = playlist(queries.trackQuery);
     const artists = playlist(queries.trackArtistQuery);
     const titles = playlist(queries.trackTitleQuery);
     const lengths = playlist(queries.trackLengthQuery);
-    const explicitStr = ' [Explicit]';
-    const cleanStr = ' [Clean]';
 
     const result = [];
 
@@ -56,16 +57,18 @@ class YoutubePlaylistParser extends PlaylistParser {
       const track = {};
 
       let title = titles.get(i).firstChild.data.trim();
-      const explicitIdx = title.indexOf(explicitStr);
+      title = title.replace(this.titleFilterRgx, '');
+
+      const explicitIdx = utils.indexOfRgx(title, this.explicitRgx);
       let explicit = explicitIdx !== -1;
       if (explicit) title = title.substring(0, explicitIdx);
       else {
         const expIcon = this.$(item).find(queries.trackIsExplicitQuery);
         explicit = expIcon.length > 0;
       }
-      const cleanIdx = title.indexOf(cleanStr);
-      if (cleanIdx !== -1) title = title.substring(0, cleanIdx);
-      const featrIdx = title.toLowerCase().indexOf(' (feat. ');
+
+      title = title.replace(this.cleanRgx, '');
+      const featrIdx = utils.indexOfRgx(title, / \(?(feat|ft). /gi);
       title = featrIdx !== -1 ? title.substring(0, featrIdx) : title;
 
       let artist = artists.get(i).children.find((x) => x.name === 'yt-formatted-string');
@@ -77,12 +80,19 @@ class YoutubePlaylistParser extends PlaylistParser {
       } else
         artist = artist.firstChild.firstChild.data;
 
-      if (artist.includes('&'))
-        artist = this.replaceAll(artist, ' & ', ', ');
-      artist = this.replaceAll(artist, ' feat.', ',');
+      artist = artist.replace(/ & /g, ', ');
+      artist = artist.replace(/ (ft|feat)./i, ',');
+
+      const legacyTitle = `${artist} - `;
+      const lastComma = legacyTitle.lastIndexOf(', ');
+      if (lastComma !== -1) {
+        const altLegacyTitle = utils.replaceAt(legacyTitle, lastComma, ', ', ' & ');
+        title = title.replace(new RegExp(altLegacyTitle, 'i'), '');
+      }
+      title = title.replace(new RegExp(legacyTitle, 'i'), '');
 
       let length = lengths.get(i).firstChild.data.trim();
-      length = this.timeStringToSeconds(length);
+      length = utils.timeStringToSeconds(length);
 
       track.title = title;
       track.artist = artist;

@@ -52,10 +52,18 @@ class ImporterStatic {
 
     const loader = loaderFactory.getLoader(platform);
     const [lError] = await to(loader.visit(formattedUrl));
-    if (null !== lError) throw lError;
+    if (null !== lError) {
+      const [qError] = await to(loader.quit());
+      if (null !== qError) throw new Error(`${lError.message}\n${qError.message}`);
+      throw lError;
+    }
 
     const [sError, source] = await to(loader.getPageSource());
-    if (null !== sError) throw sError;
+    if (null !== sError) {
+      const [qError] = await to(loader.quit());
+      if (null !== qError) throw new Error(`${sError.message}\n${qError.message}`);
+      throw sError;
+    }
 
     const [qError] = await to(loader.quit());
     if (null !== qError) throw qError;
@@ -63,7 +71,14 @@ class ImporterStatic {
     let body = iconv.decode(Buffer.from(source), 'utf8');
     body = cheerio.load(body, { decodeEntities: true });
     const parser = parserFactory.getParser(platform, body);
-    const playlist = parser.parsePlaylist(body);
+    let playlist;
+
+    try {
+      playlist = parser.parsePlaylist(body);
+    } catch (error) {
+      throw new Error(`There was a problem parsing this ${platform} playlist.`);
+    }
+
     return playlist;
   }
 };

@@ -25,16 +25,17 @@ const soundcloudQueries = new PlaylistQuery({
     songCountClasses: 'genericTrackCount large m-active',
     eofClasses: 'paging-eof sc-border-light-top',
     trackClasses: 'trackItem__number sc-font-tabular' },
-  authorQuery: '',
-  descriptionQuery: '',
-  photoQuery: '',
-  trackQuery: 'trackList__item sc-border-light-bottom',
-  trackTitleQuery: '',
-  trackArtistQuery: '',
-  titleQuery: '',
-  trackIsExplicitQuery: '',
-  trackLengthQuery: '',
-  telegraphedLengthQuery: '',
+  authorQuery: 'a.soundTitle__username.g-opacity-transition-500.g-type-shrinkwrap-inline.g-type-shrinkwrap-large-secondary.soundTitle__usernameHero.sc-type-medium',
+  descriptionQuery: null,
+  photoQuery: 'div.listenArtworkWrapper__artwork',
+  trackQuery: 'li.trackList__item.sc-border-light-bottom',
+  trackTitleQuery: 'a.trackItem__trackTitle.sc-link-dark.sc-font-light',
+  trackArtistQuery: 'a.trackItem__username.sc-link-light',
+  titleQuery: 'span.soundTitle__title.sc-font.g-type-shrinkwrap-inline.g-type-shrinkwrap-large-primary',
+  trackIsExplicitQuery: null,
+  // to get this you have to hit play on every song during the automation, and send the data as part of the html somehow
+  trackLengthQuery: null,
+  telegraphedLengthQuery: 'div.genericTrackCount__title.sc-font-tabular',
 });
 
 const primeQueries = new PlaylistQuery({
