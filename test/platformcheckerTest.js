@@ -69,7 +69,12 @@ describe('platformChecker', () => {
         expect(checker.isYouTubeMusic(url)).to.eql(true);
     });
     it('should return false for invalid link', () => {
+      const urls = [
+        'https://music.youtube.com/playlist/RDCLAK5uy_k2pS49OPwSZtJeXgWnvAPmlB8gJCphDes',
+      ];
 
+      for (const url of urls)
+        expect(checker.isYouTubeMusic(url)).to.eql(false);
     });
   });
   describe('isSoundcloud', () => {

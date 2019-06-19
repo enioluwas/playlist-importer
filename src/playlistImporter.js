@@ -1,6 +1,7 @@
 const to = require('await-to-js').to;
 const cheerio = require('cheerio');
 const iconv = require('iconv-lite');
+const platforms = require('./platforms');
 const platformChecker = require('./platformChecker');
 const parserFactory = require('./parserFactory');
 const loaderFactory = require('./loaderFactory');
@@ -13,12 +14,12 @@ class ImporterStatic {
    * @return {string}
    */
   static getPlatform(url) {
-    if (platformChecker.isApple(url)) return 'apple';
-    else if (platformChecker.isPandora(url)) return 'pandora';
-    else if (platformChecker.isPrimeMusic(url)) return 'prime';
-    else if (platformChecker.isSoundcloud(url)) return 'soundcloud';
-    else if (platformChecker.isSpotify(url)) return 'spotify';
-    else if (platformChecker.isYouTubeMusic(url)) return 'youtube';
+    if (platformChecker.isApple(url)) return platforms.APPLE;
+    else if (platformChecker.isPandora(url)) return platforms.PANDORA;
+    else if (platformChecker.isPrimeMusic(url)) return platforms.PRIME;
+    else if (platformChecker.isSoundcloud(url)) return platforms.SOUNDCLOUD;
+    else if (platformChecker.isSpotify(url)) return platforms.SPOTIFY;
+    else if (platformChecker.isYouTubeMusic(url)) return platforms.YOUTUBE;
     else return null;
   }
 
@@ -47,7 +48,7 @@ class ImporterStatic {
     if (null === platform)
       throw new Error('Invalid/unrecognized playlist link');
 
-    if ('applepandoraspotify'.includes(platform))
+    if ([platforms.APPLE, platforms.SPOTIFY, platforms.PANDORA].includes(platform))
       throw new Error(`Use the playlist-importer package instead for ${platform} playlists`);
 
     const loader = loaderFactory.getLoader(platform);

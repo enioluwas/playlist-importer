@@ -1,4 +1,5 @@
 const PageLoader = require('./pageLoader');
+const platforms = require('./platforms');
 const SoundcloudPageLoader = require('./soundcloudPageLoader');
 const PrimePageLoader = require('./primePageLoader');
 const YoutubePageLoader = require('./youtubePageLoader');
@@ -12,9 +13,9 @@ class LoaderFactory {
    */
   static getLoader(platform) {
     switch (platform) {
-    case 'soundcloud': return new SoundcloudPageLoader(queries.soundcloudQueries.counterInfo);
-    case 'prime': return new PrimePageLoader(queries.primeQueries.counterInfo);
-    case 'youtube': return new YoutubePageLoader(queries.youtubeQueries.counterInfo);
+    case platforms.SOUNDCLOUD: return new SoundcloudPageLoader(queries.soundcloudQueries.counterInfo);
+    case platforms.PRIME: return new PrimePageLoader(queries.primeQueries.counterInfo);
+    case platforms.YOUTUBE: return new YoutubePageLoader(queries.youtubeQueries.counterInfo);
     default: return null;
     }
   }
