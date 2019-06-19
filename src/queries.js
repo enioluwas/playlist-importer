@@ -26,7 +26,7 @@ const soundcloudQueries = new PlaylistQuery({
     eofClasses: 'paging-eof sc-border-light-top',
     trackClasses: 'trackItem__number sc-font-tabular' },
   authorQuery: 'a.soundTitle__username.g-opacity-transition-500.g-type-shrinkwrap-inline.g-type-shrinkwrap-large-secondary.soundTitle__usernameHero.sc-type-medium',
-  descriptionQuery: null,
+  descriptionQuery: 'div.truncatedAudioInfo__content',
   photoQuery: 'div.listenArtworkWrapper__artwork',
   trackQuery: 'li.trackList__item.sc-border-light-bottom',
   trackTitleQuery: 'a.trackItem__trackTitle.sc-link-dark.sc-font-light',

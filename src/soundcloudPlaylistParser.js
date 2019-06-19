@@ -20,7 +20,13 @@ class SoundcloudPlaylistParser extends PlaylistParser {
   }
 
   getDescription(playlist) {
-    return null;
+    const info = playlist(queries.descriptionQuery);
+    let container = info.get(0).children.find((x) => x.name === 'div' && x.attribs.class === 'sc-type-small');
+    if (undefined === container) return null;
+    container = container.children.find((x) => x.name === 'div');
+    if (undefined === container) return null;
+    const description = container.firstChild.firstChild.data.trim();
+    return description;
   }
 
   getPhoto(playlist) {
@@ -44,7 +50,7 @@ class SoundcloudPlaylistParser extends PlaylistParser {
   getTracks(playlist) {
     const titles = playlist(queries.trackTitleQuery);
     const artists = playlist(queries.trackArtistQuery);
-    const tracks = playlist(queries.trackQuery).slice(0, artists.length - 1);
+    const tracks = playlist(queries.trackQuery).slice(0, artists.length);
 
     if (titles.length !== artists.length)
       throw new Error('This playlist link seems invalid');
