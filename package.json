@@ -25,6 +25,9 @@
   ],
   "author": "Enioluwa Segun",
   "license": "MIT",
+  "bin": {
+    "playlist-importer-plugin": "./cli.js"
+  },
   "bugs": {
     "url": "https://github.com/enioluwa23/playlist-importer-plugin/issues"
   },
