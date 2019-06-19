@@ -22,14 +22,17 @@ const fs = require('fs');
 // https://soundcloud.com/james-vanho/sets/melodic-dubstep
 // https://music.youtube.com/playlist?list=RDCLAK5uy_kWm5me-X3IbEMBOWHd2fI7d4aQoauMcbI
 // https://music.amazon.com/playlists/B07KXS3DKR
+// https://music.amazon.com/user-playlists/7b4b6d204bd3437e9ae59d8ea449a816sune
+// https://soundcloud.com/enioluwa-segun/sets/dub
+// https://music.youtube.com/playlist?list=PL95w6cQ_ViuIKAt8s2vyIacDiGfBiP4M7
 
 
 const importer = require('.');
 console.time('browse');
-importer.getPlaylistData('https://music.amazon.com/playlists/B07KXS3DKR')
+importer.getPlaylistData('https://music.youtube.com/playlist?list=PL95w6cQ_ViuIKAt8s2vyIacDiGfBiP4M7')
   .then((data) => {
     console.timeEnd('browse');
-    fs.writeFileSync('./assets/primeexample3.json', JSON.stringify(data, null, 2));
+    fs.writeFileSync('./assets/youtube1.json', JSON.stringify(data, null, 2));
   })
   .catch((error) => {
     console.timeEnd('browse');
