@@ -15,8 +15,7 @@ class YoutubePlaylistParser extends PlaylistParser {
 
   getAuthor(playlist) {
     const info = playlist(queries.authorQuery);
-    const contents = info.get(0).firstChild.data;
-    const author = contents.split(' • ')[1].trim();
+    const author = info.get(0).children[1].firstChild.data;
     return author;
   }
 
