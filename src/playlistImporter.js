@@ -5,6 +5,7 @@ const platforms = require('./platforms');
 const platformChecker = require('./platformChecker');
 const parserFactory = require('./parserFactory');
 const loaderFactory = require('./loaderFactory');
+const liteImporter = require('playlist-importer-lite');
 
 
 class ImporterStatic {
@@ -49,7 +50,8 @@ class ImporterStatic {
       throw new Error('Invalid/unrecognized playlist link');
 
     if ([platforms.APPLE, platforms.SPOTIFY, platforms.PANDORA].includes(platform))
-      throw new Error(`Use the playlist-importer package instead for ${platform} playlists`);
+      return liteImporter.getPlaylistData(url);
+
 
     const loader = loaderFactory.getLoader(platform);
     const [lError] = await to(loader.visit(formattedUrl));

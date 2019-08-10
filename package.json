@@ -1,7 +1,7 @@
 {
-  "name": "playlist-importer-plugin",
-  "version": "0.1.0",
-  "description": "Standalone plugin for playlist-importer providing support for Prime Music, Soundcloud and Youtube Music.",
+  "name": "playlist-importer",
+  "version": "0.1.5",
+  "description": "Return JSON data from playlists on popular music platforms.",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/enioluwa23/playlist-importer-plugin.git"
+    "url": "git+https://github.com/enioluwa23/playlist-importer.git"
   },
   "keywords": [
     "playlist",
@@ -26,12 +26,12 @@
   "author": "Enioluwa Segun",
   "license": "MIT",
   "bin": {
-    "playlist-importer-plugin": "./cli.js"
+    "playlist-importer": "./cli.js"
   },
   "bugs": {
-    "url": "https://github.com/enioluwa23/playlist-importer-plugin/issues"
+    "url": "https://github.com/enioluwa23/playlist-importer/issues"
   },
-  "homepage": "https://github.com/enioluwa23/playlist-importer-plugin#readme",
+  "homepage": "https://github.com/enioluwa23/playlist-importer#readme",
   "dependencies": {
     "await-to-js": "^2.1.1",
     "chalk": "^2.4.2",
@@ -39,6 +39,7 @@
     "chromedriver": "^76.0.0",
     "commander": "^2.20.0",
     "iconv-lite": "^0.4.24",
+    "playlist-importer-lite": "^0.1.0",
     "selenium-webdriver": "^4.0.0-alpha.1",
     "valid-filename": "^3.1.0"
   },
